@@ -7,6 +7,7 @@ import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { SensordataListComponent } from './sensordata-list/sensordata-list.component';
 import { NewSensorComponent } from './new-sensor/new-sensor.component';
 import { NewSensordataComponent } from './new-sensordata/new-sensordata.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NewSensordataComponent } from './new-sensordata/new-sensordata.componen
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
