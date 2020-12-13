@@ -1,6 +1,28 @@
-<p>sensordata-list works!</p>
-<ul class="list-group">
-    <li class="list-group-item">Hello</li>
-    <li class="list-group-item">Hello</li>
-    <li class="list-group-item">Hello</li>
+<h2>Sensor Data List</h2>
+<ul class="sensordataList">
+	<li *ngFor="let sensordata of sensordataList"
+		[class.selected]="sensordata === selectedSensordata"
+		(click)="onSelect(sensordata)">
+		<span class="badge">{{sensordata.distance}}</span> {{sensordata.timestamp}}	
+	</li>
 </ul>
+
+<div *ngIf="selectedSensordata">
+	<h2>Sensordata Entry {{selectedSensordata.entry_id}} Detail</h2>
+	<div><span>id: </span>{{selectedSensordata.entry_id}}</div>
+	<div>
+		<label>distance: 
+			<input [(ngModel)]="selectedSensordata.distance" placeholder="distance"/>
+		</label>
+	</div>
+	<div>
+		<label>timestamp: 
+			<input [(ngModel)]="selectedSensordata.timestamp" placeholder="timestamp"/>
+		</label>
+	</div>
+	<div *ngIf="selectedSensordata.sensor">
+		<label>sensor:
+			<input [(ngModel)]="selectedSensordata.sensor" placeholder="sensor"/>
+		</label>
+	</div>
+</div>

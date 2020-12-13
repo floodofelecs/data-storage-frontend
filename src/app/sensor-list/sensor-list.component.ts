@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Sensor } from '../sensor';
+import { SENSORLIST } from '../mock-sensor-list';
+
 
 @Component({
   selector: 'app-sensor-list',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SensorListComponent implements OnInit {
 
+  sensorList = SENSORLIST;
+  selectedSensor: Sensor;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSelect(sensor: Sensor): void {
+  	this.selectedSensor = sensor;
   }
 
 }

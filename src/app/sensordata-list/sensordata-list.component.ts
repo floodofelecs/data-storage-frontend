@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Sensordata } from '../sensordata';
+import { SENSORDATALIST } from '../mock-sensordata-list'
 
 @Component({
   selector: 'app-sensordata-list',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SensordataListComponent implements OnInit {
 
+  sensordataList =  SENSORDATALIST;
+  selectedSensordata: Sensordata;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSelect(sensordata: Sensordata): void {
+  	this.selectedSensordata = sensordata;
   }
 
 }

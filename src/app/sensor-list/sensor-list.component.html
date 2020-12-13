@@ -1,1 +1,33 @@
-<p>sensor-list works!</p>
+<h2>Sensor List</h2>
+<ul class="sensorList">
+	<li *ngFor="let sensor of sensorList" 
+		[class.selected]="sensor === " 
+		(click)="onSelect(sensor)">
+		<span class="badge">{{sensor.synthetic_id}}</span> {{sensor.location}}
+	</li>
+</ul>
+
+<div *ngIf="selectedSensor">
+	<h2>Sensor {{selectedSensor.synthetic_id}} Detail</h2>
+	<div><span>id: </span>{{selectedSensor.synthetic_id}}</div>
+	<div>
+		<label>hardware id:
+			<input [(ngModel)]="selectedSensor.hardware_id" placeholder="hardware_id" />
+		</label>
+	</div>
+	<div>
+		<label>install date:
+			<input [(ngModel)]="selectedSensor.install_date" placeholder="install_date" />
+		</label>
+	</div>
+	<div *ngIf="selectedSensor.removal_date">
+		<label>removal date:
+			<input [(ngModel)]="selectedSensor.removal_date" placeholder="removal_date" />
+		</label>
+	</div>
+	<div>
+		<label>location:
+			<input [(ngModel)]="selectedSensor.location" placeholder="location" />
+		</label>
+	</div>
+</div>
