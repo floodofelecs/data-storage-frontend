@@ -5,16 +5,33 @@
 			<h2>Sensor List</h2>
 		</div>
 		<div class="col">
-			<button class="btn btn-large btn-success my-1 float-right" routerLink="/new-sensor"><fa-icon [icon]="faPlus"></fa-icon> New Sensor</button>
+			<button class="btn btn-large btn-success my-1 float-right" routerLink="/new-sensor">
+				<fa-icon [icon]="faPlus"></fa-icon> New Sensor
+			</button>
 		</div>
 	</div>
-	<ul class="list-group">
-		<li *ngFor="let sensor of sensorList" class="list-group-item" [class.active]="sensor === selectedSensor"
-			(click)="onSelect(sensor)">
-			<span class="badge">{{sensor.synthetic_id}}</span> {{sensor.hardware_id}} ({{sensor.location.longitude}}
-			{{sensor.location.latitude}})
-		</li>
-	</ul>
+	<!-- Using a bootstrap table here, to make headers possible -->
+	<table class="table">
+		<thead>
+			<!-- Table header row -->
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Hardware ID</th>
+				<th scope="col">Coordinates</th>
+			</tr>
+		</thead>
+		<!-- Table body. NgFor lets us create many table rows. -->
+		<tbody>
+			<!-- ngClass directive sets custom class if the table row is selected -->
+			<tr *ngFor="let sensor of sensorList" (click)="onSelect(sensor)"
+				[ngClass]="{'table-active': sensor == selectedSensor}">
+				<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
+				<td>{{sensor.synthetic_id}}</td>
+				<td>{{sensor.hardware_id}}</td>
+				<td>({{sensor.location.longitude}}, {{sensor.location.latitude}})</td>
+			</tr>
+		</tbody>
+	</table>
 
 	<div *ngIf="selectedSensor">
 		<h2>Sensor {{selectedSensor.synthetic_id}} Detail</h2>
