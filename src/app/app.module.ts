@@ -11,6 +11,7 @@ import { NewSensordataComponent } from './components/new-sensordata/new-sensorda
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SensorService } from './services/sensor.service';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormsModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [SensorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sensor } from '../../models/sensor';
+import { SensorService } from '../../services/sensor.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-new-sensor',
@@ -7,20 +9,22 @@ import { Sensor } from '../../models/sensor';
   styleUrls: ['./new-sensor.component.css']
 })
 export class NewSensorComponent implements OnInit {
-  ngOnInit(){}
+  ngOnInit() { }
 
-  model = new Sensor(18, 'ABCDEF', new Date(Date.parse('Jan 12 1998')), {latitude:77, longitude: 77},new Date(Date.parse('Jan-22-1998')));
+  constructor(private sensorService: SensorService, private router: Router) { }
+
+  model = new Sensor(0, '', new Date(Date.now()), { latitude: 0, longitude: 0 });
 
   submitted = false;
   onSubmit() {
     this.submitted = true;
-    this.model = new Sensor(0, "", new Date(0), {latitude: 0, longitude: 0});
-
+    this.sensorService.createSensor(this.model).then(newSensor => this.router.navigate(['/sensors']))
+      .catch(err => console.error("Could not create sensor: " + err));
   };
 
 
-    // inside the onSubmit function, can call the program that populates backend
+  // inside the onSubmit function, can call the program that populates backend
 
-    // TODO: Remove this when we're done
-    get diagnostic() { return JSON.stringify(this.model); }
+  // TODO: Remove this when we're done
+  get diagnostic() { return JSON.stringify(this.model); }
 }
