@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sensor } from '../../models/sensor';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import {SensorService} from '../../services/sensor.service'
+import {SensorService} from '../../services/sensor/sensor.service'
 
 
 @Component({

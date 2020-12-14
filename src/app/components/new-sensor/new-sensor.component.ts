@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Sensor } from '../../models/sensor';
-import { SensorService } from '../../services/sensor.service'
+import { SensorService } from '../../services/sensor/sensor.service'
 import { Router } from '@angular/router'
 
 @Component({

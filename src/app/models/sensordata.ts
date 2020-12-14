@@ -1,6 +1,6 @@
 import { Sensor } from './sensor'
 
-export class Sensordata {
+export class SensorData {
 	constructor(
 		public entry_id: number,
 		public distance: number,

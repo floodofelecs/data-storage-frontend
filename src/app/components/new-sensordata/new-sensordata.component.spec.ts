@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewSensordataComponent } from './new-sensordata.component';
+import { NewSensorDataComponent } from './new-sensordata.component';
 
-describe('NewSensordataComponent', () => {
-  let component: NewSensordataComponent;
-  let fixture: ComponentFixture<NewSensordataComponent>;
+describe('NewSensorDataComponent', () => {
+  let component: NewSensorDataComponent;
+  let fixture: ComponentFixture<NewSensorDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewSensordataComponent ]
+      declarations: [ NewSensorDataComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewSensordataComponent);
+    fixture = TestBed.createComponent(NewSensorDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

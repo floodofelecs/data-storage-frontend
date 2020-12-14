@@ -22,7 +22,9 @@
         Sensor
     </label>
 
-    <input type='text' class='form-control' id='sensor_input' required [(ngModel)]='sensor_id' name='sensor'>
+    <select class="form-control" name="sensor_input" [(ngModel)]="model.sensor">
+        <option *ngFor="let sensor of sensorOptions">Hardware ID: {{sensor.hardware_id}}</option>
+    </select>
 
-    <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+    <button type="button" class="btn btn-primary my-2" (click)="onSubmit()">Submit</button>
 </div>

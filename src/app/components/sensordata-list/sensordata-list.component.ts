@@ -1,26 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Sensordata } from '../../models/sensordata';
-import { SENSORDATALIST } from '../../models/mock-sensordata-list'
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import { SensorData } from '../../models/sensordata';
+import { SensorDataService } from '../../services/sensor-data/sensor-data.service';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sensordata-list',
   templateUrl: './sensordata-list.component.html',
   styleUrls: ['./sensordata-list.component.css']
 })
-export class SensordataListComponent implements OnInit {
+export class SensorDataListComponent implements OnInit {
   // font awesome icons
   faPlus = faPlus;
 
-  sensordataList = SENSORDATALIST;
-  selectedSensordata: Sensordata | undefined;
+  sensordataList: SensorData[] = [];
+  selectedSensordata: SensorData | undefined;
 
-  constructor() { }
+  constructor(private sensorDataService: SensorDataService) { }
 
   ngOnInit(): void {
+    this.sensorDataService.getSensorData().then(sensorData => this.sensordataList = sensorData)
+      .catch(err => console.error("Error getting sensor data: " + err));
   }
 
-  onSelect(sensordata: Sensordata): void {
+  onSelect(sensordata: SensorData): void {
     this.selectedSensordata = sensordata;
   }
 
