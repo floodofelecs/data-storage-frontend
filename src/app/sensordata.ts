@@ -5,7 +5,7 @@ export class Sensordata {
 		public entry_id: number,
 		public distance: number,
 		public timestamp: string,
-		public sensor: Sensor,
+		public sensor: Sensor
 	) {}
 
 }

@@ -4,7 +4,7 @@
 
     <input type='text' class='form-control' id='entry_id_input'
     required
-    [(ndModel)] = 'model.entry_id' name='entry_id'
+    [(ngModel)] = 'model.entry_id' name='entry_id'>
 
 <label for = 'distance_input'>
     Distance
@@ -12,7 +12,7 @@
 
     <input type='text' class='form-control' id='distance_input'
     required
-    [(ndModel)] = 'model.distance' name='distance'
+    [(ngModel)] = 'model.distance' name='distance'>
 
 <label for = 'timestamp_input'>
     Timestamp
@@ -20,7 +20,7 @@
 
     <input type='text' class='form-control' id='timestamp_input'
     required
-    [(ndModel)] = 'model.timestamp' name='timestamp'
+    [(ngModel)] = 'model.timestamp' name='timestamp'>
 
 <label for = 'sensor_input'>
     Sensor
@@ -28,6 +28,7 @@
 
     <input type='text' class='form-control' id='sensor_input'
     required
-    [(ndModel)] = 'model.sensor' name='sensor'
+    [(ngModel)] = 'sensor_id' name='sensor'>
 
+<button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
 
