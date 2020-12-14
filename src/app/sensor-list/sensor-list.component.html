@@ -1,7 +1,7 @@
 <h2>Sensor List</h2>
 <ul class="sensorList">
 	<li *ngFor="let sensor of sensorList" 
-		[class.selected]="sensor === " 
+		[class.selected]="sensor === selectedSensor" 
 		(click)="onSelect(sensor)">
 		<span class="badge">{{sensor.synthetic_id}}</span> {{sensor.location}}
 	</li>

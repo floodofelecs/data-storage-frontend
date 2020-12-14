@@ -1,7 +1,10 @@
 export class Sensor {
-	synthetic_id: number;
-	hardware_id: string;
-	install_date: string;
-	removal_date: string;
-	location: [number, number];
+	// changed this
+	constructor (
+	public synthetic_id: number,
+	public hardware_id: string,
+	public install_date: string,
+	public location: [number, number],
+	public removal_date?: string
+	) {}
 }

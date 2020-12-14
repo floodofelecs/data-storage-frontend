@@ -10,7 +10,7 @@ import { SENSORDATALIST } from '../mock-sensordata-list'
 export class SensordataListComponent implements OnInit {
 
   sensordataList =  SENSORDATALIST;
-  selectedSensordata: Sensordata;
+  selectedSensordata: Sensordata | undefined;
 
   constructor() { }
 
