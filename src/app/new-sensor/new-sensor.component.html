@@ -1,5 +1,32 @@
-<p>new-sensor works!</p>
 <form>
-    <label for="hardwarelabelinput">Enter Hardware ID</label>
-    <input id="hardwarelabelinput">
+    <div class = "form-group">
+
+<label for = "hardware_id_input">
+    HardwareID 
+</label>
+
+  <input type="text" class="form-control" id="hardware_id_input"
+  required
+  [(ngModel)]="model.hardware_id" name="hardware_id">
+
+
+<label for = "location_latitude_input">
+    Latitude
+</label>
+
+  <input type="text" class="form-control" id="location_latitude_input"
+  required
+  [(ngModel)]="model.location[0]" name="latitude">
+
+ <label for = "location_longitude_input">
+    Longitude
+</label>
+
+  <input type="text" class="form-control" id="location_logitude_input"
+  required
+  [(ngModel)]="model.location[1]" name="longitude">
+
+<button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+  <!-- <TODO: remove this: {{model.name}}> -->
+    </div>
 </form>

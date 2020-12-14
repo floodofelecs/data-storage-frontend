@@ -11,7 +11,7 @@ import { SENSORLIST } from '../mock-sensor-list';
 export class SensorListComponent implements OnInit {
 
   sensorList = SENSORLIST;
-  selectedSensor: Sensor;
+  selectedSensor: Sensor | undefined;
 
   constructor() { }
 
