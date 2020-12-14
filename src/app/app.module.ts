@@ -31,7 +31,7 @@ import { SensorDataService } from './services/sensor-data/sensor-data.service';
     NgbModule,
     FormsModule,
     FontAwesomeModule
-  ],
+    ],
   providers: [SensorService, SensorDataService],
   bootstrap: [AppComponent]
 })
