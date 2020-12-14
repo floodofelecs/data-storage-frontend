@@ -9,6 +9,7 @@ import { SensordataListComponent } from './components/sensordata-list/sensordata
 import { NewSensorComponent } from './components/new-sensor/new-sensor.component';
 import { NewSensordataComponent } from './components/new-sensordata/new-sensordata.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SensordataListComponent,
     NewSensorComponent,
     NewSensordataComponent,
+    NavbarComponent,
 
   ],
   imports: [

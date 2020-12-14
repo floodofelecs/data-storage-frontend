@@ -10,6 +10,8 @@ const routes: Routes = [
   {path: 'new-sensordata', component: NewSensordataComponent},
   {path: 'sensors', component: SensorListComponent},
   {path: 'sensordata', component: SensordataListComponent},
+  // Redirect empty path to /sensors
+  {path: '', component: SensordataListComponent}
 ];
 
 @NgModule({
