@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  // Inject router so we can access the url parameter
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  // Checks if a provided route is the active one.
+  isActiveRoute(route: string): boolean {
+    return this.router.url == route;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sensordata } from '../../models/sensordata';
 import { SENSORDATALIST } from '../../models/mock-sensordata-list'
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sensordata-list',
@@ -8,8 +9,10 @@ import { SENSORDATALIST } from '../../models/mock-sensordata-list'
   styleUrls: ['./sensordata-list.component.css']
 })
 export class SensordataListComponent implements OnInit {
+  // font awesome icons
+  faPlus = faPlus;
 
-  sensordataList =  SENSORDATALIST;
+  sensordataList = SENSORDATALIST;
   selectedSensordata: Sensordata | undefined;
 
   constructor() { }
@@ -18,7 +21,7 @@ export class SensordataListComponent implements OnInit {
   }
 
   onSelect(sensordata: Sensordata): void {
-  	this.selectedSensordata = sensordata;
+    this.selectedSensordata = sensordata;
   }
 
 }

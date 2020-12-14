@@ -3,8 +3,11 @@ export class Sensor {
 	constructor (
 	public synthetic_id: number,
 	public hardware_id: string,
-	public install_date: string,
-	public location: [number, number],
-	public removal_date?: string
+	public install_date: Date,
+	public location: {
+		latitude: number,
+		longitude: number
+	},
+	public removal_date?: Date
 	) {}
 }

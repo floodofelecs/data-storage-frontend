@@ -1,28 +1,54 @@
-<h2>Sensor Data List</h2>
-<ul class="sensordataList">
-	<li *ngFor="let sensordata of sensordataList"
-		[class.selected]="sensordata === selectedSensordata"
-		(click)="onSelect(sensordata)">
-		<span class="badge">{{sensordata.distance}}</span> {{sensordata.timestamp}}	
-	</li>
-</ul>
-
-<div *ngIf="selectedSensordata">
-	<h2>Sensordata Entry {{selectedSensordata.entry_id}} Detail</h2>
-	<div><span>id: </span>{{selectedSensordata.entry_id}}</div>
-	<div>
-		<label>distance: 
-			<input [(ngModel)]="selectedSensordata.distance" placeholder="distance"/>
-		</label>
+<div class="container">
+	<!-- Bootstrap grid to get "Sensor Data List" header and the New Sensor button on same line -->
+	<div class="row">
+		<div class="col">
+			<h2>Sensor Data List</h2>
+		</div>
+		<div class="col">
+			<button class="btn btn-large btn-success my-1 float-right" routerLink="/new-sensordata"><fa-icon [icon]="faPlus"></fa-icon> New Sensor Data</button>
+		</div>
 	</div>
-	<div>
-		<label>timestamp: 
-			<input [(ngModel)]="selectedSensordata.timestamp" placeholder="timestamp"/>
-		</label>
-	</div>
-	<div *ngIf="selectedSensordata.sensor">
-		<label>sensor:
-			<input [(ngModel)]="selectedSensordata.sensor" placeholder="sensor"/>
-		</label>
+	<!-- Using a bootstrap table here, to make headers possible -->
+	<table class="table">
+		<thead>
+			<!-- Table header row -->
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Time Stamp</th>
+				<th scope="col">Distance</th>
+				<th scope="col">Coordinates</th>
+			</tr>
+		</thead>
+		<!-- Table body. NgFor lets us create many table rows. -->
+		<tbody>
+			<!-- ngClass directive sets custom class if the table row is selected -->
+			<tr *ngFor="let sensordata of sensordataList" (click)="onSelect(sensordata)"
+				[ngClass]="{'table-active': sensordata == selectedSensordata}">
+				<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
+				<td>{{sensordata.entry_id}}</td>
+				<td>{{sensordata.timestamp}}</td>
+				<td>{{sensordata.distance}}</td>
+				<td>({{sensordata.sensor.location.longitude}}, {{sensordata.sensor.location.latitude}})</td>
+			</tr>
+		</tbody>
+	</table>
+	<div *ngIf="selectedSensordata">
+		<h2>Sensordata Entry {{selectedSensordata.entry_id}} Detail</h2>
+		<div><span>id: </span>{{selectedSensordata.entry_id}}</div>
+		<div>
+			<label>distance:
+				<input class="form-control" [(ngModel)]="selectedSensordata.distance" placeholder="distance" />
+			</label>
+		</div>
+		<div>
+			<label>timestamp:
+				<input class="form-control" [(ngModel)]="selectedSensordata.timestamp" placeholder="timestamp" />
+			</label>
+		</div>
+		<div *ngIf="selectedSensordata.sensor">
+			<label>sensor:
+				<input class="form-control" [(ngModel)]="selectedSensordata.sensor" placeholder="sensor" />
+			</label>
+		</div>
 	</div>
 </div>

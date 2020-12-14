@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sensor } from '../../models/sensor';
 import { SENSORLIST } from '../../models/mock-sensor-list';
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -9,6 +10,7 @@ import { SENSORLIST } from '../../models/mock-sensor-list';
   styleUrls: ['./sensor-list.component.css']
 })
 export class SensorListComponent implements OnInit {
+  faPlus = faPlus;
 
   sensorList = SENSORLIST;
   selectedSensor: Sensor | undefined;

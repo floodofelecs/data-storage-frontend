@@ -9,12 +9,12 @@ import { Sensor } from '../../models/sensor';
 export class NewSensorComponent implements OnInit {
   ngOnInit(){}
 
-  model = new Sensor(18, 'ABCDEF', 'Jan-21-1998', [77,77],'Jan-22-1998');
+  model = new Sensor(18, 'ABCDEF', new Date(Date.parse('Jan 12 1998')), {latitude:77, longitude: 77},new Date(Date.parse('Jan-22-1998')));
 
   submitted = false;
   onSubmit() {
     this.submitted = true;
-    this.model = new Sensor(0, "", "", [0,0], "");
+    this.model = new Sensor(0, "", new Date(0), {latitude: 0, longitude: 0});
 
   };
 

@@ -4,7 +4,7 @@ export class Sensordata {
 	constructor(
 		public entry_id: number,
 		public distance: number,
-		public timestamp: string,
+		public timestamp: Date,
 		public sensor: Sensor
 	) {}
 
