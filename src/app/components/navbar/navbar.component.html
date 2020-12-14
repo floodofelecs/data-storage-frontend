@@ -12,5 +12,6 @@
                 <a class="nav-link" routerLink="/sensors">Sensors</a>
             </li>
         </ul>
+        <button *ngIf="loggedIn" type="button" class="btn btn-outline-light" (click)="logout()">Logout</button>
     </div>
 </nav>

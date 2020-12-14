@@ -13,7 +13,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SensorService } from './services/sensor/sensor.service';
 import { SensorDataService } from './services/sensor-data/sensor-data.service';
-
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import {AuthenticationService} from './services/authentication/authentication.service';
+import {CookieService} from 'ngx-cookie-service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,16 +27,23 @@ import { SensorDataService } from './services/sensor-data/sensor-data.service';
     NewSensorComponent,
     NewSensorDataComponent,
     NavbarComponent,
-
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [SensorService, SensorDataService],
+  providers: [
+    SensorService,
+    SensorDataService,
+    AuthenticationService,
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

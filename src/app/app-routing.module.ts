@@ -4,6 +4,7 @@ import {NewSensorComponent} from '../../src/app/components/new-sensor/new-sensor
 import {NewSensorDataComponent} from '../../src/app/components/new-sensordata/new-sensordata.component'
 import {SensorListComponent} from '../../src/app/components/sensor-list/sensor-list.component'
 import {SensorDataListComponent} from '../../src/app/components/sensordata-list/sensordata-list.component'
+import {LoginComponent} from '../../src/app/components/login/login.component'
 
 const routes: Routes = [
   {path: 'new-sensor', component: NewSensorComponent},
@@ -11,7 +12,7 @@ const routes: Routes = [
   {path: 'sensors', component: SensorListComponent},
   {path: 'sensordata', component: SensorDataListComponent},
   // Redirect empty path to /sensors
-  {path: '', component: SensorDataListComponent}
+  {path: '', component: LoginComponent}
 ];
 
 @NgModule({

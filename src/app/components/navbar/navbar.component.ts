@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,9 +10,22 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   // Inject router so we can access the url parameter
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private authService: AuthenticationService) { }
+
+  loggedIn: boolean = false;
 
   ngOnInit(): void {
+    // Check if user is logged in, if the are we should show login button
+    this.loggedIn = this.authService.isAuthenticated();
+  }
+
+  /**
+   *  Logs a user out
+   */
+  logout() {
+    // Logs a user out, and sends them back to login page with the router.navigate call
+    this.authService.logout().subscribe(res => this.router.navigate(['/']))
   }
 
   // Checks if a provided route is the active one.
