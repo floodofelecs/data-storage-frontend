@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Sensor } from '../../models/sensor';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Configuration } from '../../../config'
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SensorService {
 
-  private MOCK_SENSORS: Sensor[] = [
-    { synthetic_id: 1, hardware_id: "DOIOSE", install_date: new Date(Date.parse("Sun Dec 13 16:59:16 EST 2020")), location: { longitude: 124.35, latitude: 70.245 } },
-    { synthetic_id: 2, hardware_id: "S89FGN39", install_date: new Date(Date.parse("Sun Dec 13 16:59:16 EST 2020")), location: { longitude: 14.35, latitude: 170.245 } }
-  ];
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   /**
    * Gets all sensors from the backend
    */
-  getSensors(): Promise<Sensor[]> {
-    return new Promise<Sensor[]>((resolve, reject) => { resolve(this.MOCK_SENSORS) });
+  getSensors(): Observable<Sensor[]> {
+    return this.http.get(`${Configuration.api_url}/sensors`).pipe(map(res => res as Sensor[]))
   }
 
   /**
@@ -31,13 +30,15 @@ export class SensorService {
       if (Math.abs(sensor.location.latitude) > 90 || Math.abs(sensor.location.longitude) > 180) {
         return reject("Latitude or longitude out of range");
       }
-      let newSensor = new Sensor(
-        this.MOCK_SENSORS.length + 1,
-        sensor.hardware_id,
-        sensor.install_date,
-        { latitude: sensor.location.latitude, longitude: sensor.location.longitude })
-      this.MOCK_SENSORS.unshift(newSensor);
-      resolve(newSensor);
+      return this.http.post(`${Configuration.backend_url}/sensors`,
+        {
+          hardware_id: sensor.hardware_id,
+          install_date: sensor.install_date.toISOString(),
+          location: {
+            latitude: sensor.location.latitude,
+            longitude: sensor.location.longitude
+          }
+        }).toPromise();
     });
   }
 

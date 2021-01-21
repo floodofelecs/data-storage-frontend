@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
+    if (this.authService.isAuthenticated.value) {
       // Redirect the user to sensor data page
       this.router.navigate(['/sensordata'])
     }

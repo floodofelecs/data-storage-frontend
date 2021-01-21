@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Sensor } from '../../models/sensor';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {SensorService} from '../../services/sensor/sensor.service'
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -12,18 +13,12 @@ import {SensorService} from '../../services/sensor/sensor.service'
 export class SensorListComponent implements OnInit {
   faPlus = faPlus;
 
-  sensorList: Sensor[];
+  sensorList: Observable<Sensor[]> = this.sensorService.getSensors();
   selectedSensor: Sensor | undefined;
 
-  constructor(private sensorSerivce: SensorService) { 
-    this.sensorList = [];
-  }
+  constructor(private sensorService: SensorService) { }
 
-  ngOnInit(): void {
-    // Get list of sensors
-    this.sensorSerivce.getSensors().then(sensors => this.sensorList = sensors)
-    .catch(err => console.error("Could not get sensors from service: " + err));
-  }
+  ngOnInit(): void { }
 
   onSelect(sensor: Sensor): void {
   	this.selectedSensor = sensor;

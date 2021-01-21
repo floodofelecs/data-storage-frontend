@@ -13,11 +13,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SensorService } from './services/sensor/sensor.service';
 import { SensorDataService } from './services/sensor-data/sensor-data.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import {AuthenticationService} from './services/authentication/authentication.service';
 import {CookieService} from 'ngx-cookie-service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,9 +37,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     FontAwesomeModule,
     HttpClientModule,
+    // Configure Xsrf for use with Django
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'csrftoken',
+      headerName: 'X-CSRFToken'
+    }),
     ReactiveFormsModule
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     SensorService,
     SensorDataService,
     AuthenticationService,

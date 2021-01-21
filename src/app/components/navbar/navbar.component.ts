@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
@@ -13,11 +14,11 @@ export class NavbarComponent implements OnInit {
   constructor(private router: Router,
     private authService: AuthenticationService) { }
 
-  loggedIn: boolean = false;
+  loggedIn = new BehaviorSubject(false);
 
   ngOnInit(): void {
     // Check if user is logged in, if the are we should show login button
-    this.loggedIn = this.authService.isAuthenticated();
+    this.loggedIn = this.authService.isAuthenticated;
   }
 
   /**

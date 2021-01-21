@@ -19,12 +19,9 @@ export class NewSensorDataComponent implements OnInit {
     private sensorDataService: SensorDataService,
     private router: Router) { }
 
-  sensorOptions: Sensor[] = [];
+  sensorOptions = this.sensorService.getSensors();
 
-  ngOnInit(): void {
-    this.sensorService.getSensors().then(sensors => this.sensorOptions = sensors)
-    .catch(err => console.error("Error getting sensors: " + err));
-  }
+  ngOnInit(): void { }
   model: SensorData = {
     entry_id: 0, distance: 0, timestamp: new Date(Date.now()),
     sensor: {

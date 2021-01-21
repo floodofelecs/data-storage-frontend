@@ -23,7 +23,7 @@
 		<!-- Table body. NgFor lets us create many table rows. -->
 		<tbody>
 			<!-- ngClass directive sets custom class if the table row is selected -->
-			<tr *ngFor="let sensor of sensorList" (click)="onSelect(sensor)"
+			<tr *ngFor="let sensor of (sensorList | async)" (click)="onSelect(sensor)"
 				[ngClass]="{'table-active': sensor == selectedSensor}">
 				<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
 				<td>{{sensor.synthetic_id}}</td>
