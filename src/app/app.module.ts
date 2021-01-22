@@ -10,13 +10,13 @@ import { NewSensorComponent } from './components/new-sensor/new-sensor.component
 import { NewSensorDataComponent } from './components/new-sensordata/new-sensordata.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SensorService } from './services/sensor/sensor.service';
 import { SensorDataService } from './services/sensor-data/sensor-data.service';
-import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import {AuthenticationService} from './services/authentication/authentication.service';
 import {CookieService} from 'ngx-cookie-service';
+import { NgTempusdominusBootstrapModule } from 'ngx-tempusdominus-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
@@ -35,14 +35,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    FontAwesomeModule,
     HttpClientModule,
-    // Configure Xsrf for use with Django
-    HttpClientXsrfModule.withOptions({
-      cookieName: 'csrftoken',
-      headerName: 'X-CSRFToken'
-    }),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgTempusdominusBootstrapModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

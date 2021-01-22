@@ -5,50 +5,68 @@
 			<h2>Sensor Data List</h2>
 		</div>
 		<div class="col">
-			<button class="btn btn-large btn-success my-1 float-right" routerLink="/new-sensordata"><fa-icon [icon]="faPlus"></fa-icon> New Sensor Data</button>
+			<button class="btn btn-large btn-success my-1 float-right" routerLink="/new-sensordata">
+				<i class="fa fa-plus"></i> New Sensor Data
+			</button>
 		</div>
 	</div>
-	<!-- Using a bootstrap table here, to make headers possible -->
-	<table class="table">
-		<thead>
-			<!-- Table header row -->
-			<tr>
-				<th scope="col">ID</th>
-				<th scope="col">Time Stamp</th>
-				<th scope="col">Distance</th>
-				<th scope="col">Coordinates</th>
-			</tr>
-		</thead>
-		<!-- Table body. NgFor lets us create many table rows. -->
-		<tbody>
-			<!-- ngClass directive sets custom class if the table row is selected -->
-			<tr *ngFor="let sensordata of sensordataList" (click)="onSelect(sensordata)"
-				[ngClass]="{'table-active': sensordata == selectedSensordata}">
-				<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
-				<td>{{sensordata.entry_id}}</td>
-				<td>{{sensordata.timestamp}}</td>
-				<td>{{sensordata.distance}}</td>
-				<td>({{sensordata.sensor.location.longitude}}, {{sensordata.sensor.location.latitude}})</td>
-			</tr>
-		</tbody>
-	</table>
-	<div *ngIf="selectedSensordata">
-		<h2>Sensordata Entry {{selectedSensordata.entry_id}} Detail</h2>
-		<div><span>id: </span>{{selectedSensordata.entry_id}}</div>
-		<div>
-			<label>distance:
-				<input class="form-control" [(ngModel)]="selectedSensordata.distance" placeholder="distance" />
-			</label>
+	<div class="row">
+		<div class="col">
+			<!-- Using a bootstrap table here, to make headers possible -->
+			<table class="table">
+				<thead>
+					<!-- Table header row -->
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Time Stamp</th>
+						<th scope="col">Distance</th>
+						<th scope="col">Coordinates</th>
+					</tr>
+				</thead>
+				<!-- Table body. NgFor lets us create many table rows. -->
+				<tbody>
+					<!-- ngClass directive sets custom class if the table row is selected -->
+					<tr *ngFor="let sensordata of sensordataList; let idx = index" (click)="onSelect(sensordata, idx)"
+						[ngClass]="{'table-active': sensordata == selectedSensorData}">
+						<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
+						<td>{{sensordata.entry_id}}</td>
+						<td>{{sensordata.timestamp}}</td>
+						<td>{{sensordata.distance}}</td>
+						<td>({{sensordata.sensor.location.longitude}}, {{sensordata.sensor.location.latitude}})</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<div>
-			<label>timestamp:
-				<input class="form-control" [(ngModel)]="selectedSensordata.timestamp" placeholder="timestamp" />
-			</label>
-		</div>
-		<div *ngIf="selectedSensordata.sensor">
-			<label>sensor:
-				<input class="form-control" [(ngModel)]="selectedSensordata.sensor" placeholder="sensor" />
-			</label>
+		<div *ngIf="selectedSensorData" class="col-4">
+			<h2>Entry {{selectedSensorData.entry_id}} Detail</h2>
+			<form [formGroup]="editSensorDataForm">
+				<div class="form-group">
+					<label for="distanceInput">Distance</label>
+					<input class="form-control" id="distanceInput" formControlName="distance" />
+					<label for="timestampInput">Timestamp</label>
+					<div class="form-group date-widget">
+						<div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
+							<input id="timestampInput" class="form-control" formControlName="timestamp"
+								[options]="options" NgTempusdominusBootstrapInput type="text" />
+							<div class="input-group-append" NgTempusdominusBootstrapToggle>
+								<div class="input-group-text">
+									<i class="fa fa-calendar"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label for="sensorSelector">Sensor</label>
+					<select class="form-control" formControlName="sensor" id="sensorSelector">
+						<!-- This first option serves as a default value, of the sensor currently set for this data-->
+						<option [ngValue]="selectedSensorData.sensor" selected disabled hidden>ID:
+							{{selectedSensorData.sensor.synthetic_id}}</option>
+						<option *ngFor="let sensor of (sensorOptions | async)" [ngValue]="sensor">ID:
+							{{sensor.synthetic_id}}</option>
+					</select>
+					<button class="btn btn-primary my-3" type="submit"
+						[disabled]="editSensorDataForm.invalid" (click)="updateSensorData()">Update</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

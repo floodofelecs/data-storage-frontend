@@ -67,7 +67,7 @@ export class SensorService {
    */
   deleteSensor(sensor: Sensor): Observable<void> {
     return this.http.delete(`${Configuration.backend_url}/sensors/${sensor.synthetic_id}`)
-    .pipe(catchError(this.handleError)).pipe(map(res => {}));
+      .pipe(catchError(this.handleError)).pipe(map(res => { }));
   }
 
   /**

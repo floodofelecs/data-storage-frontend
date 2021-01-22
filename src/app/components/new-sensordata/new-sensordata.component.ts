@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Sensor } from 'src/app/models/sensor';
 import { SensorData } from '../../models/sensordata';
 import { SensorDataService } from '../../services/sensor-data/sensor-data.service';
 import { SensorService } from '../../services/sensor/sensor.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 
 
@@ -31,11 +30,10 @@ export class NewSensorDataComponent implements OnInit {
   }
 
   submitted = false;
-  onSubmit() { 
-    this.submitted = true; 
+  onSubmit() {
+    this.submitted = true;
     console.log(this.model);
-    this.sensorDataService.createSensorData(this.model).then(newSensor => this.router.navigate(['/sensordata']))
-    .catch(err => console.error("Could not create sensordata: " + err));
+    this.sensorDataService.createSensorData(this.model).subscribe(newSensor => this.router.navigate(['/sensordata']))
   }
 
   // TODO: Remove this when we're done

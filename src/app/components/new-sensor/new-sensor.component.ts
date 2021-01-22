@@ -18,8 +18,7 @@ export class NewSensorComponent implements OnInit {
   submitted = false;
   onSubmit() {
     this.submitted = true;
-    this.sensorService.createSensor(this.model).then(newSensor => this.router.navigate(['/sensors']))
-      .catch(err => console.error("Could not create sensor: " + err));
+    this.sensorService.createSensor(this.model).subscribe(newSensor => this.router.navigate(['/sensors']))
   };
 
 

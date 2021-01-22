@@ -13,7 +13,7 @@ export class AuthenticationService {
   // Tracks authentication status of user
   public isAuthenticated = new BehaviorSubject(false);
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { 
+  constructor(private http: HttpClient, private cookieService: CookieService) {
     // Update the isAuthenticated property using cookie, and subscribe to it so we can change the cookie value later.
     this.isAuthenticated.next(this.cookieService.get('authenticated') == 'true');
     this.isAuthenticated.subscribe(authStatus => this.cookieService.set('authenticated', authStatus.toString()));
@@ -44,7 +44,7 @@ export class AuthenticationService {
   authenticate(username: string, password: string): Observable<any> {
     return this.http.post(`${Configuration.auth_url}/login/`, { username: username, password: password })
       .pipe(catchError(this.handleError))
-      .pipe(map((res:any) => {
+      .pipe(map((res: any) => {
         // Here, we know we authenticated successfully. Set the isAuthenticated property so frontend knows this.
         this.isAuthenticated.next(true);
         this.cookieService.set('token', res.token);
@@ -67,11 +67,11 @@ export class AuthenticationService {
         this.cookieService.delete('token');
         return res;
       }),
-      catchError(err => {
-        // Even if we had an error, log the user out.
-        this.isAuthenticated.next(false);
-        this.cookieService.delete('token');
-        return this.handleError(err);
-      }))
+        catchError(err => {
+          // Even if we had an error, log the user out.
+          this.isAuthenticated.next(false);
+          this.cookieService.delete('token');
+          return this.handleError(err);
+        }))
   }
 }

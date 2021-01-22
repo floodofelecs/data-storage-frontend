@@ -1,65 +1,82 @@
 import { Injectable } from '@angular/core';
 import { SensorData } from '../../models/sensordata';
-import {Sensor} from '../../models/sensor';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { Configuration } from '../../../config';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SensorDataService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  private sensor: Sensor = { synthetic_id: 2, hardware_id: "S89FGN39", install_date: new Date(Date.parse("Sat Dec 12 16:50:16 EST 2020")), location: { latitude: 14.35, longitude: 170.245 } }
-
-  private SENSORDATALIST: SensorData[] = [
-    { sensor: this.sensor, entry_id: 1, distance: 2.3, timestamp: new Date(Date.parse("Sun Dec 13 16:59:16 EST 2020")) },
-    { sensor: this.sensor, entry_id: 2, distance: 2.2, timestamp: new Date(Date.parse("Sun Dec 13 17:05:16 EST 2020")) },
-    { sensor: this.sensor, entry_id: 3, distance: 2.0, timestamp: new Date(Date.parse("Sun Dec 13 17:10:16 EST 2020")) }
-  ];
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(
+      'Something bad happened; please try again later.');
+  }
 
   /**
    * Gets all sensor data
    */
-  getSensorData(): Promise<SensorData[]> {
-    return new Promise((resolve, reject) => {
-      return resolve(this.SENSORDATALIST);
-    });
+  getSensorData(): Observable<SensorData[]> {
+    return this.http.get(`${Configuration.api_url}/sensor-data/`)
+      .pipe(catchError(this.handleError)).pipe(map(res => res as SensorData[]));
   }
 
   /**
    * Gets individual sensor data entry
    * @param entry_id: Entry id of the sensor data to get.
    */
-  getSensorDataEntry(entry_id: Number): Promise<SensorData> {
-    return new Promise((resolve, reject) => {
-      reject("Not yet implemented");
-    })
+  getSensorDataEntry(entry_id: Number): Observable<SensorData> {
+    return this.http.get(`${Configuration.api_url}/sensor-data/${entry_id}/`)
+      .pipe(catchError(this.handleError)).pipe(map(res => res as SensorData));
   }
 
   /**
    * Creates new sensor data
    * @param sensorData Sensor data to create
    */
-  createSensorData(sensorData: SensorData): Promise<SensorData> {
-    return new Promise((resolve, reject) => {
-      this.SENSORDATALIST.push(sensorData);
-      return resolve(sensorData);
-    });
+  createSensorData(sensorData: SensorData): Observable<SensorData> {
+    return this.http.post(`${Configuration.api_url}/sensor-data/`,
+      {
+        distance: sensorData.distance,
+        timestamp: sensorData.timestamp,
+        sensor: sensorData.sensor.synthetic_id
+      }).pipe(catchError(this.handleError)).pipe(map(res => res as SensorData))
   }
 
   /**
    * Deletes sensor data entry
    * @param sensorData Data to delete
    */
-  deleteSensorData(sensorData: SensorData): Promise<void> {
-    return new Promise((resolve, reject) => reject("Not yet implemented"));
+  deleteSensorData(sensorData: SensorData): Observable<void> {
+    return this.http.delete(`${Configuration.api_url}/sensor-data/${sensorData.entry_id}/`)
+      .pipe(catchError(this.handleError)).pipe(map(res => { }));
   }
 
   /**
    * Updates sensor data entry by replacing it.
    * @param newSensorData: new sensor data to replace old one
    */
-  updateSensorData(newSensorData: SensorData): Promise<SensorData> {
-    return new Promise((resolve, reject) => reject("Not yet implemented"));
+  updateSensorData(newSensorData: SensorData): Observable<SensorData> {
+    return this.http.put(`${Configuration.api_url}/sensor-data/${newSensorData.entry_id}/`,
+      {
+        distance: newSensorData.distance,
+        timestamp: newSensorData.timestamp,
+        sensor: newSensorData.sensor.synthetic_id
+      }).pipe(catchError(this.handleError)).pipe(map(res => res as SensorData));
   }
 }
