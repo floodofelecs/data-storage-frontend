@@ -12,7 +12,7 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<!-- Using a bootstrap table here, to make headers possible -->
+			<!-- Using a bootstrap table here, to make headers for each column possible -->
 			<table class="table">
 				<thead>
 					<!-- Table header row -->
@@ -37,13 +37,22 @@
 				</tbody>
 			</table>
 		</div>
+		<!-- Sensor Edit Section. Note the ngIf directive, that means this html only displays if selectedSensorData!=null-->
 		<div *ngIf="selectedSensorData" class="col-4">
 			<h2>Entry {{selectedSensorData.entry_id}} Detail</h2>
+			<!--
+				This is a reactive form: https://angular.io/guide/reactive-forms.
+				It uses a formGroup, which is declared in the typescript. The advantage
+				of this type of form is that it allows for very rigid validation
+				of each input.
+			-->
 			<form [formGroup]="editSensorDataForm">
 				<div class="form-group">
 					<label for="distanceInput">Distance</label>
+					<!-- Note the formControlName directive. This links the input below to the form control called "distance"-->
 					<input class="form-control" id="distanceInput" formControlName="distance" />
 					<label for="timestampInput">Timestamp</label>
+					<!-- This block enables the popup calendar in the editor. This is useful because it allows dates to be selected seamlessly. -->
 					<div class="form-group date-widget">
 						<div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
 							<input id="timestampInput" class="form-control" formControlName="timestamp"
@@ -56,15 +65,29 @@
 						</div>
 					</div>
 					<label for="sensorSelector">Sensor</label>
+					<!-- This select tag enables us to select a new sensor from the list of existing sensors -->
 					<select class="form-control" formControlName="sensor" id="sensorSelector">
-						<!-- This first option serves as a default value, of the sensor currently set for this data-->
+						<!-- 
+							This first option serves as a default value, of the sensor currently set for this data
+							This is necessary because the other sensor options will have to be pulled from the backend, which takes time.
+							We want to make sure that there is a default option available.
+						-->
 						<option [ngValue]="selectedSensorData.sensor" selected disabled hidden>ID:
 							{{selectedSensorData.sensor.synthetic_id}}</option>
+						<!-- 
+							Note how ngFor lets us create multiple options tags, each with a different value for "sensor".
+							Also "async" is used because sensorOptions is an observable we expect to return a value. The async keyword
+							tells angular to wait for that value to return, and use the returned data
+							[ngValue] sets the "value" for the option. 
+							The option has a sensor object linked to it, but will display the synthetic ID of the sensor.
+							When an option is selected, the formControl will be updated with the full sensor object, not just the synthetic ID
+						-->
 						<option *ngFor="let sensor of (sensorOptions | async)" [ngValue]="sensor">ID:
 							{{sensor.synthetic_id}}</option>
 					</select>
-					<button class="btn btn-primary my-3" type="submit"
-						[disabled]="editSensorDataForm.invalid" (click)="updateSensorData()">Update</button>
+					<!-- This button submits the form (note the call to updateSensorData()). It will be disabled if the sensordata form is not valid-->
+					<button class="btn btn-primary my-3" type="submit" [disabled]="editSensorDataForm.invalid"
+						(click)="updateSensorData()">Update</button>
 				</div>
 			</form>
 		</div>
