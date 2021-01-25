@@ -21,7 +21,7 @@ export class SensorService {
       // The response body may contain clues as to what went wrong.
       console.error(
         `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `body was: ${JSON.stringify(error.error)}`);
     }
     // Return an observable with a user-facing error message.
     return throwError(
@@ -32,7 +32,7 @@ export class SensorService {
    * Gets all sensors from the backend
    */
   getSensors(): Observable<Sensor[]> {
-    return this.http.get(`${Configuration.api_url}/sensors`).pipe(catchError(this.handleError)).pipe(map(res => res as Sensor[]))
+    return this.http.get(`${Configuration.api_url}/sensors/`).pipe(catchError(this.handleError)).pipe(map(res => res as Sensor[]))
   }
 
   /**
@@ -41,7 +41,7 @@ export class SensorService {
    */
   createSensor(sensor: Sensor): Observable<Sensor> {
     // Use spread syntax
-    return this.http.post(`${Configuration.backend_url}/sensors`,
+    return this.http.post(`${Configuration.api_url}/sensors/`,
       {
         hardware_id: sensor.hardware_id,
         install_date: sensor.install_date.toISOString(),
@@ -57,7 +57,7 @@ export class SensorService {
    * @param synthetic_id Synthetic id of sensor to get
    */
   getSensor(synthetic_id: number): Observable<Sensor> {
-    return this.http.get(`${Configuration.backend_url}/sensors/${synthetic_id}`)
+    return this.http.get(`${Configuration.api_url}/sensors/${synthetic_id}/`)
       .pipe(catchError(this.handleError)).pipe(map(res => res as Sensor))
   }
 
@@ -66,7 +66,7 @@ export class SensorService {
    * @param sensor Sensor to delete
    */
   deleteSensor(sensor: Sensor): Observable<void> {
-    return this.http.delete(`${Configuration.backend_url}/sensors/${sensor.synthetic_id}`)
+    return this.http.delete(`${Configuration.api_url}/sensors/${sensor.synthetic_id}/`)
       .pipe(catchError(this.handleError)).pipe(map(res => { }));
   }
 
@@ -75,6 +75,14 @@ export class SensorService {
    * @param: newSensor: New Sensor to replace old one
    */
   updateSensor(newSensor: Sensor): Observable<Sensor> {
-    return throwError("Not yet implemented");
+    return this.http.put(`${Configuration.api_url}/sensors/${newSensor.synthetic_id}/`, {
+      hardware_id: newSensor.hardware_id,
+      install_date: newSensor.install_date,
+      removal_date: newSensor.removal_date,
+      location: {
+        longitude: newSensor.location.longitude,
+        latitude: newSensor.location.latitude
+      }
+    }).pipe(catchError(this.handleError)).pipe(map(res => res as Sensor));
   }
 }
