@@ -10,52 +10,86 @@
 			</button>
 		</div>
 	</div>
-	<!-- Using a bootstrap table here, to make headers possible -->
-	<table class="table">
-		<thead>
-			<!-- Table header row -->
-			<tr>
-				<th scope="col">ID</th>
-				<th scope="col">Hardware ID</th>
-				<th scope="col">Coordinates</th>
-			</tr>
-		</thead>
-		<!-- Table body. NgFor lets us create many table rows. -->
-		<tbody>
-			<!-- ngClass directive sets custom class if the table row is selected -->
-			<tr *ngFor="let sensor of (sensorList | async)" (click)="onSelect(sensor)"
-				[ngClass]="{'table-active': sensor == selectedSensor}">
-				<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
-				<td>{{sensor.synthetic_id}}</td>
-				<td>{{sensor.hardware_id}}</td>
-				<td>({{sensor.location.longitude}}, {{sensor.location.latitude}})</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<div *ngIf="selectedSensor">
-		<h2>Sensor {{selectedSensor.synthetic_id}} Detail</h2>
-		<div><span>id: </span>{{selectedSensor.synthetic_id}}</div>
-		<div>
-			<label>hardware id:
-				<input [(ngModel)]="selectedSensor.hardware_id" placeholder="hardware_id" />
-			</label>
+	<div class="row">
+		<div class="col">
+			<!-- Using a bootstrap table here, to make headers possible -->
+			<table class="table">
+				<thead>
+					<!-- Table header row -->
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Hardware ID</th>
+						<th scope="col">Coordinates</th>
+						<th scope="col">Install Date</th>
+						<th scope="col">Removal Date</th>
+					</tr>
+				</thead>
+				<!-- Table body. NgFor lets us create many table rows. -->
+				<tbody>
+					<!-- ngClass directive sets custom class if the table row is selected -->
+					<tr *ngFor="let sensor of sensorList; let idx = index" (click)="onSelect(sensor, idx)"
+						[ngClass]="{'table-active': sensor == selectedSensor}">
+						<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
+						<td>{{sensor.synthetic_id}}</td>
+						<td>{{sensor.hardware_id}}</td>
+						<td>({{sensor.location.longitude}}, {{sensor.location.latitude}})</td>
+						<td>{{sensor.install_date}}</td>
+						<td>{{sensor.removal_date}}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<div>
-			<label>install date:
-				<input [(ngModel)]="selectedSensor.install_date" placeholder="install_date" />
-			</label>
-		</div>
-		<div *ngIf="selectedSensor.removal_date">
-			<label>removal date:
-				<input [(ngModel)]="selectedSensor.removal_date" placeholder="removal_date" />
-			</label>
-		</div>
-		<div>
-			<label>location:
-				<input [(ngModel)]="selectedSensor.location" placeholder="location" />
-			</label>
+		<!-- Sensor Edit Section. Note the ngIf directive, that means this html only displays if selectedSensor!=null-->
+		<div *ngIf="selectedSensor" class="col-4">
+			<h2>Sensor {{selectedSensor.synthetic_id}} Detail</h2>
+			<!--
+				This is a reactive form: https://angular.io/guide/reactive-forms.
+				It uses a formGroup, which is declared in the typescript. The advantage
+				of this type of form is that it allows for very rigid validation
+				of each input.
+			-->
+			<form [formGroup]="editSensorForm">
+				<div class="form-group">
+					<label for="hardwareIDInput">Hardware ID</label>
+					<!-- Note the formControlName directive. This links the input below to the form control called "hardware_id"-->
+					<input class="form-control" id="hardwareIDInput" formControlName="hardware_id" />
+					<label for="installDateInput">Install Date</label>
+					<!-- This block enables the popup calendar in the editor. This is useful because it allows dates to be selected seamlessly. -->
+					<div class="form-group date-widget">
+						<div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
+							<input id="installDateInput" class="form-control" formControlName="install_date"
+								[options]="options" NgTempusdominusBootstrapInput type="text" />
+							<div class="input-group-append" NgTempusdominusBootstrapToggle>
+								<div class="input-group-text">
+									<i class="fa fa-calendar"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label for="removalDateInput">Removal Date</label>
+					<!-- This block enables the popup calendar in the editor. This is useful because it allows dates to be selected seamlessly. -->
+					<div class="form-group date-widget">
+						<div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
+							<input id="removalDateInput" class="form-control" formControlName="removal_date"
+								[options]="options" NgTempusdominusBootstrapInput type="text" />
+							<div class="input-group-append" NgTempusdominusBootstrapToggle>
+								<div class="input-group-text">
+									<i class="fa fa-calendar"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label for="latitudeInput">Latitude</label>
+					<!-- Note the formControlName directive. This links the input below to the form control called "latitude"-->
+					<input class="form-control" id="latitudeInput" formControlName="latitude" />
+					<label for="longitudeInput">Longitude</label>
+					<!-- Note the formControlName directive. This links the input below to the form control called "longitude"-->
+					<input class="form-control" id="longitudeInput" formControlName="longitude" />
+					<!-- This button submits the form (note the call to updateSensor()). It will be disabled if the sensor form is not valid-->
+					<button class="btn btn-primary my-3" type="submit" [disabled]="editSensorForm.invalid"
+						(click)="updateSensor()">Update</button>
+				</div>
+			</form>
 		</div>
 	</div>
-
 </div>
