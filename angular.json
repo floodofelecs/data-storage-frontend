@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-tour-of-heroes": {
+    "flood-frontend-angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-tour-of-heroes",
+            "outputPath": "dist/flood-frontend-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -28,16 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css",
-              "./node_modules/@fortawesome/fontawesome-free/css/all.css",
               "src/styles.css"
             ],
             "scripts": [
-              "./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js",
-              "./node_modules/@fortawesome/fontawesome-free/js/all.js",
-              "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/moment/min/moment.min.js",
               "./node_modules/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js"
             ]
@@ -75,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-tour-of-heroes:build"
+            "browserTarget": "flood-frontend-angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-tour-of-heroes:build:production"
+              "browserTarget": "flood-frontend-angular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-tour-of-heroes:build"
+            "browserTarget": "flood-frontend-angular:build"
           }
         },
         "test": {
@@ -123,18 +117,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-tour-of-heroes:serve"
+            "devServerTarget": "flood-frontend-angular:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-tour-of-heroes:serve:production"
+              "devServerTarget": "flood-frontend-angular:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "angular-tour-of-heroes",
+  "defaultProject": "flood-frontend-angular",
   "cli": {
     "analytics": "8a361958-de93-4514-92b0-48892fff10af"
   }
