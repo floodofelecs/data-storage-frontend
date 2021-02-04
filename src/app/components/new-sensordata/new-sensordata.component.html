@@ -1,30 +1,39 @@
 <div class="container">
-    <label for='entry_id_input'>
-        Entry ID
-    </label>
+    <form [formGroup]="newSensorDataForm">
+        <label for='distance_input'>
+            Distance
+        </label>
 
-    <input type='text' class='form-control' id='entry_id_input' required [(ngModel)]='model.entry_id' name='entry_id'>
+        <input type='text' class='form-control' id='distance_input' required formControlName='distance'>
 
-    <label for='distance_input'>
-        Distance
-    </label>
+        <label for='timestamp_input'>
+            Timestamp
+        </label>
 
-    <input type='text' class='form-control' id='distance_input' required [(ngModel)]='model.distance' name='distance'>
+        <!-- This block enables the popup calendar in the editor. This is useful because it allows dates to be selected seamlessly. -->
+        <div class="form-group date-widget">
+            <div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
+                <input id="timestamp_input" class="form-control" formControlName="timestamp" [options]="options"
+                    NgTempusdominusBootstrapInput type="text" />
+                <div class="input-group-append" NgTempusdominusBootstrapToggle>
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <label for='timestamp_input'>
-        Timestamp
-    </label>
+        <label for='sensor_input'>
+            Sensor
+        </label>
 
-    <input type='text' class='form-control' id='timestamp_input' required [(ngModel)]='model.timestamp'
-        name='timestamp'>
+        <select class="form-control" name="sensor_input" formControlName="sensor">
+            <option disabled hidden selected>Choose a Sensor</option>
+            <option *ngFor="let sensor of (sensorOptions | async)" [ngValue]="sensor">Hardware ID:
+                {{sensor.hardware_id}}, Sensor ID: {{sensor.synthetic_id}}</option>
+        </select>
 
-    <label for='sensor_input'>
-        Sensor
-    </label>
-
-    <select class="form-control" name="sensor_input" [(ngModel)]="model.sensor">
-        <option *ngFor="let sensor of (sensorOptions | async)">Hardware ID: {{sensor.hardware_id}}</option>
-    </select>
-
-    <button type="button" class="btn btn-primary my-2" (click)="onSubmit()">Submit</button>
+        <button type="button" class="btn btn-primary my-2" (click)="onSubmit()"
+            [disabled]="newSensorDataForm.invalid">Submit</button>
+    </form>
 </div>

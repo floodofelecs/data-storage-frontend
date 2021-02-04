@@ -11,31 +11,30 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class NewSensorComponent implements OnInit {
   ngOnInit() { }
-  
+
   // Settings for date time picker
-  options: any = { sideBySide: true};
+  options: any = { sideBySide: true };
 
   newSensorForm = new FormGroup({
     hardware_id: new FormControl('', Validators.required),
     install_date: new FormControl('', Validators.required),
-    longitude: new FormControl('', Validators.required),
-    latitude: new FormControl('', Validators.required),
-    
+    longitude: new FormControl('', Validators.compose([Validators.required, Validators.min(-180), Validators.max(180)])),
+    latitude: new FormControl('', Validators.compose([Validators.required, Validators.min(-90), Validators.max(90)])),
   })
 
 
   constructor(private sensorService: SensorService, private router: Router) { }
 
-  
 
-  
-  
+
+
+
   submitted = false;
   onSubmit() {
     this.submitted = true;
-    let newSensor = new Sensor(0, this.newSensorForm.get('hardware_id')?.value, 
-    this.newSensorForm.get('install_date')?.value, 
-    {latitude:this.newSensorForm.get('latitude')?.value, longitude: this.newSensorForm.get('longitude')?.value})
+    let newSensor = new Sensor(0, this.newSensorForm.get('hardware_id')?.value,
+      this.newSensorForm.get('install_date')?.value,
+      { latitude: this.newSensorForm.get('latitude')?.value, longitude: this.newSensorForm.get('longitude')?.value })
     this.sensorService.createSensor(newSensor).subscribe(newSensor => this.router.navigate(['/sensors']))
   };
 

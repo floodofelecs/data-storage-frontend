@@ -1,44 +1,43 @@
-<form [formGroup]="newSensorForm">
 <div class="container">
-  <div class="form-group">
+  <form [formGroup]="newSensorForm">
+    <div class="form-group">
 
-    <label for="hardware_id_input">
-      HardwareID
-    </label>
+      <label for="hardware_id_input">
+        HardwareID
+      </label>
 
-    <input type="text" class="form-control" id="hardware_id_input" required formControlName="hardware_id"
-      name="hardware_id">
+      <input type="text" class="form-control" id="hardware_id_input" required formControlName="hardware_id"
+        name="hardware_id">
 
 
-    <label for="location_latitude_input">
-      Latitude
-    </label>
+      <label for="location_latitude_input">
+        Latitude
+      </label>
 
-    <input type="text" class="form-control" id="location_latitude_input" required formControlName="latitude"
-      name="latitude">
+      <input type="text" class="form-control" id="location_latitude_input" required formControlName="latitude"
+        name="latitude">
 
-    <label for="location_longitude_input">
-      Longitude
-    </label>
+      <label for="location_longitude_input">
+        Longitude
+      </label>
 
-    <input type="text" class="form-control" id="location_logitude_input" required formControlName="longitude"
-      name="longitude">
+      <input type="text" class="form-control" id="location_logitude_input" required formControlName="longitude"
+        name="longitude">
 
-    <label for="install_date_input">Install Date</label>
-					<!-- This block enables the popup calendar in the editor. This is useful because it allows dates to be selected seamlessly. -->
-					<div class="form-group date-widget">
-						<div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
-							<input id="install_date_input" class="form-control" formControlName="install_date"
-								[options]="options" NgTempusdominusBootstrapInput type="text" />
-              <div class="input-group-append" NgTempusdominusBootstrapToggle>
-								<div class="input-group-text">
-									<i class="fa fa-calendar"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-    <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
-    <!-- <TODO: remove this: {{model.name}}> -->
-  </div>
+      <label for="install_date_input">Install Date</label>
+      <!-- This block enables the popup calendar in the editor. This is useful because it allows dates to be selected seamlessly. -->
+      <div class="form-group date-widget">
+        <div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
+          <input id="install_date_input" class="form-control" formControlName="install_date" [options]="options"
+            NgTempusdominusBootstrapInput type="text" />
+          <div class="input-group-append" NgTempusdominusBootstrapToggle>
+            <div class="input-group-text">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="newSensorForm.invalid">Submit</button>
+    </div>
+  </form>
 </div>
-</form>

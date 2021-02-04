@@ -3,6 +3,8 @@ import { SensorData } from '../../models/sensordata';
 import { SensorDataService } from '../../services/sensor-data/sensor-data.service';
 import { SensorService } from '../../services/sensor/sensor.service';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Sensor } from 'src/app/models/sensor';
 
 
 
@@ -14,26 +16,28 @@ import { Router } from '@angular/router';
 
 export class NewSensorDataComponent implements OnInit {
 
+  newSensorDataForm = new FormGroup({
+    distance: new FormControl('', Validators.required),
+    timestamp: new FormControl('', Validators.required),
+    sensor: new FormControl(null, Validators.required),
+  })
+
   constructor(private sensorService: SensorService,
     private sensorDataService: SensorDataService,
     private router: Router) { }
 
   sensorOptions = this.sensorService.getSensors();
+  // Settings for date time picker
+  options: any = { sideBySide: true }
 
   ngOnInit(): void { }
-  model: SensorData = {
-    entry_id: 0, distance: 0, timestamp: new Date(Date.now()),
-    sensor: {
-      synthetic_id: 2, hardware_id: "S89FGN39",
-      install_date: new Date(Date.parse("Sat Dec 12 16:50:16 EST 2020")), location: { longitude: 14.35, latitude: 170.24 }
-    }
-  }
 
   submitted = false;
   onSubmit() {
     this.submitted = true;
-    console.log(this.model);
-    this.sensorDataService.createSensorData(this.model).subscribe(newSensor => this.router.navigate(['/sensordata']))
+    let newSensorData = new SensorData(0, this.newSensorDataForm.get('distance')?.value,
+      this.newSensorDataForm.get('timestamp')?.value, this.newSensorDataForm.get('sensor')?.value);
+    this.sensorDataService.createSensorData(newSensorData).subscribe(unused => this.router.navigate(['/sensordata']))
   }
 
   // TODO: Remove this when we're done
