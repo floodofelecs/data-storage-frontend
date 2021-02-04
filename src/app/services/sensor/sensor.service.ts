@@ -32,7 +32,7 @@ export class SensorService {
    * Gets all sensors from the backend
    */
   getSensors(): Observable<Sensor[]> {
-    return this.http.get(`${Configuration.api_url}/sensors`).pipe(catchError(this.handleError)).pipe(map(res => res as Sensor[]))
+    return this.http.get(`${Configuration.api_url}/sensors/`).pipe(catchError(this.handleError)).pipe(map(res => res as Sensor[]))
   }
 
   /**
@@ -41,7 +41,7 @@ export class SensorService {
    */
   createSensor(sensor: Sensor): Observable<Sensor> {
     // Use spread syntax
-    return this.http.post(`${Configuration.backend_url}/sensors`,
+    return this.http.post(`${Configuration.api_url}/sensors/`,
       {
         hardware_id: sensor.hardware_id,
         install_date: sensor.install_date.toISOString(),
@@ -57,7 +57,7 @@ export class SensorService {
    * @param synthetic_id Synthetic id of sensor to get
    */
   getSensor(synthetic_id: number): Observable<Sensor> {
-    return this.http.get(`${Configuration.backend_url}/sensors/${synthetic_id}`)
+    return this.http.get(`${Configuration.api_url}/sensors/${synthetic_id}/`)
       .pipe(catchError(this.handleError)).pipe(map(res => res as Sensor))
   }
 
@@ -66,7 +66,7 @@ export class SensorService {
    * @param sensor Sensor to delete
    */
   deleteSensor(sensor: Sensor): Observable<void> {
-    return this.http.delete(`${Configuration.backend_url}/sensors/${sensor.synthetic_id}`)
+    return this.http.delete(`${Configuration.api_url}/sensors/${sensor.synthetic_id}/`)
       .pipe(catchError(this.handleError)).pipe(map(res => { }));
   }
 

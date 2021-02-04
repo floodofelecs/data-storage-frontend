@@ -1,3 +1,4 @@
+<form [formGroup]="newSensorForm">
 <div class="container">
   <div class="form-group">
 
@@ -5,7 +6,7 @@
       HardwareID
     </label>
 
-    <input type="text" class="form-control" id="hardware_id_input" required [(ngModel)]="model.hardware_id"
+    <input type="text" class="form-control" id="hardware_id_input" required formControlName="hardware_id"
       name="hardware_id">
 
 
@@ -13,17 +14,31 @@
       Latitude
     </label>
 
-    <input type="text" class="form-control" id="location_latitude_input" required [(ngModel)]="model.location.latitude"
+    <input type="text" class="form-control" id="location_latitude_input" required formControlName="latitude"
       name="latitude">
 
     <label for="location_longitude_input">
       Longitude
     </label>
 
-    <input type="text" class="form-control" id="location_logitude_input" required [(ngModel)]="model.location.longitude"
+    <input type="text" class="form-control" id="location_logitude_input" required formControlName="longitude"
       name="longitude">
 
+    <label for="install_date_input">Install Date</label>
+					<!-- This block enables the popup calendar in the editor. This is useful because it allows dates to be selected seamlessly. -->
+					<div class="form-group date-widget">
+						<div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
+							<input id="install_date_input" class="form-control" formControlName="install_date"
+								[options]="options" NgTempusdominusBootstrapInput type="text" />
+              <div class="input-group-append" NgTempusdominusBootstrapToggle>
+								<div class="input-group-text">
+									<i class="fa fa-calendar"></i>
+								</div>
+							</div>
+						</div>
+					</div>
     <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
     <!-- <TODO: remove this: {{model.name}}> -->
   </div>
 </div>
+</form>
