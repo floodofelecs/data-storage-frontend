@@ -21,7 +21,7 @@ export class SensorService {
       // The response body may contain clues as to what went wrong.
       console.error(
         `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `body was: ${JSON.stringify(error.error)}`);
     }
     // Return an observable with a user-facing error message.
     return throwError(
@@ -75,6 +75,14 @@ export class SensorService {
    * @param: newSensor: New Sensor to replace old one
    */
   updateSensor(newSensor: Sensor): Observable<Sensor> {
-    return throwError("Not yet implemented");
+    return this.http.put(`${Configuration.api_url}/sensors/${newSensor.synthetic_id}/`, {
+      hardware_id: newSensor.hardware_id,
+      install_date: newSensor.install_date,
+      removal_date: newSensor.removal_date,
+      location: {
+        longitude: newSensor.location.longitude,
+        latitude: newSensor.location.latitude
+      }
+    }).pipe(catchError(this.handleError)).pipe(map(res => res as Sensor));
   }
 }
