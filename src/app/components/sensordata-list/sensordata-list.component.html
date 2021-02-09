@@ -18,7 +18,7 @@
 					<!-- Table header row -->
 					<tr>
 						<th scope="col">ID</th>
-						<th scope="col">Time Stamp</th>
+						<th scope="col">Timestamp</th>
 						<th scope="col">Distance</th>
 						<th scope="col">Coordinates</th>
 					</tr>
@@ -30,8 +30,8 @@
 						[ngClass]="{'table-active': sensordata == selectedSensorData}">
 						<!-- TD elements contain each column entry. Should have same number of td tags as the header row. -->
 						<td>{{sensordata.entry_id}}</td>
-						<td>{{sensordata.timestamp}}</td>
-						<td>{{sensordata.distance}}</td>
+						<td>{{sensordata.timestamp | date:'short'}}</td>
+						<td>{{sensordata.distance}} meters</td>
 						<td>({{sensordata.sensor.location.longitude}}, {{sensordata.sensor.location.latitude}})</td>
 					</tr>
 				</tbody>

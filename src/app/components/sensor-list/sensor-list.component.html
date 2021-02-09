@@ -33,8 +33,8 @@
 						<td>{{sensor.synthetic_id}}</td>
 						<td>{{sensor.hardware_id}}</td>
 						<td>({{sensor.location.longitude}}, {{sensor.location.latitude}})</td>
-						<td>{{sensor.install_date}}</td>
-						<td>{{sensor.removal_date}}</td>
+						<td>{{sensor.install_date | date:'short'}}</td>
+						<td>{{sensor.removal_date | date:'short'}}</td>
 					</tr>
 				</tbody>
 			</table>

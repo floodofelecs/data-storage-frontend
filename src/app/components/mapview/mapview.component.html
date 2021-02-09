@@ -1,4 +1,13 @@
 <div class="container">
-<mgl-map class="mgl-map" [style]="'mapbox://styles/mapbox/streets-v11'" [zoom]="[14]" [center]="[-95.400,29.7184]">
-</mgl-map>
+    <mgl-map class="mgl-map" [style]="'mapbox://styles/mapbox/satellite-streets-v11'" [zoom]="[14]"
+        [center]="[-95.400,29.7184]">
+        <div *ngFor="let data of (sensorData | async)">
+            <mgl-marker #sensorMarker [lngLat]="[data.sensor.location.longitude, data.sensor.location.latitude]">
+            </mgl-marker>
+            <mgl-popup [marker]="sensorMarker">
+                {{data.distance}} meters<br />
+                Logged at {{data.timestamp | date:'M/d H:mm:ss'}}
+            </mgl-popup>
+        </div>
+    </mgl-map>
 </div>
