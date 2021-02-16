@@ -14,13 +14,13 @@ import { SensorService } from './services/sensor/sensor.service';
 import { SensorDataService } from './services/sensor-data/sensor-data.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
-import {AuthenticationService} from './services/authentication/authentication.service';
-import {CookieService} from 'ngx-cookie-service';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { CookieService } from 'ngx-cookie-service';
 import { NgTempusdominusBootstrapModule } from 'ngx-tempusdominus-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MapviewComponent } from './components/mapview/mapview.component';
+import { DatePipe } from '@angular/common';
 import { Configuration } from 'src/config';
 import { Secrets } from 'src/secrets';
 
@@ -43,16 +43,14 @@ import { Secrets } from 'src/secrets';
     HttpClientModule,
     ReactiveFormsModule,
     NgTempusdominusBootstrapModule,
-    NgxMapboxGLModule.withConfig({
-      accessToken: Secrets.mapbox_token
-    })
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     SensorService,
     SensorDataService,
     AuthenticationService,
-    CookieService
+    CookieService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

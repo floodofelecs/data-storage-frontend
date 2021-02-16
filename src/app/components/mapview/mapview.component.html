@@ -1,19 +1,3 @@
 <div class="container">
-    <mgl-map class="mgl-map" [style]="'mapbox://styles/mapbox/satellite-streets-v11'" [zoom]="[14]"
-        [center]="[-95.400,29.7184]">
-        <div *ngFor="let data of (sensorData | async)">
-            <mgl-marker #sensorMarker [lngLat]="[data.sensor.location.longitude, data.sensor.location.latitude]">
-                <!-- Use ngClass to color the marker based on distance-->
-                <p [ngClass]="{
-                    'text-danger': data.distance > 2.0,
-                    'text-warning': data.distance > 1.0,
-                    'text-success': data.distance < 1.0
-                }"><i class="fas fa-map-marker fa-3x"></i></p>
-            </mgl-marker>
-            <mgl-popup [marker]="sensorMarker">
-                {{data.distance}} meters<br />
-                Logged at {{data.timestamp | date:'M/d H:mm:ss'}}
-            </mgl-popup>
-        </div>
-    </mgl-map>
+    <div id='data-map' class="sensor-map"></div> 
 </div>
