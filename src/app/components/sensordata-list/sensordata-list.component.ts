@@ -3,6 +3,7 @@ import { SensorData } from '../../models/sensordata';
 import { SensorDataService } from '../../services/sensor-data/sensor-data.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SensorService } from 'src/app/services/sensor/sensor.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-sensordata-list',
@@ -96,4 +97,18 @@ export class SensorDataListComponent implements OnInit {
     })
   }
 
+  downloadFile() {
+
+    // download file
+    this.sensorDataService.download().subscribe(
+        res => {
+            const blob = new Blob([res], { type : 'text/csv' });
+            const file = new File([blob], 'csv_database_write' + '.csv', { type: 'text/csv' });
+            saveAs(file);
+        },
+        res => {
+            // notify error
+        }
+    );
+  }
 }
