@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { Configuration } from '../../../config';
 import { catchError, map } from 'rxjs/operators';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -79,4 +80,8 @@ export class SensorDataService {
         sensor: newSensorData.sensor.synthetic_id
       }).pipe(catchError(this.handleError)).pipe(map(res => res as SensorData));
   }
+
+  download() {
+    return this.http.get(`${Configuration.api_url}/sensor-data/csv-database-write/`, { responseType: 'blob' });
+}
 }
