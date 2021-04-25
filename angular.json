@@ -17,9 +17,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "@mapbox/mapbox-gl-geocoder"
-            ],
             "outputPath": "dist/flood-frontend-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
