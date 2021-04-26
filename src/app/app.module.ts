@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MapviewComponent } from './components/mapview/mapview.component';
 import { DatePipe } from '@angular/common';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Configuration } from 'src/config';
 import { Secrets } from 'src/secrets';
 
@@ -43,6 +44,7 @@ import { Secrets } from 'src/secrets';
     HttpClientModule,
     ReactiveFormsModule,
     NgTempusdominusBootstrapModule,
+    InfiniteScrollModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

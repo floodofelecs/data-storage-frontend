@@ -34,7 +34,19 @@ export class SensorDataListComponent implements OnInit {
       Validators.min(0)])),
     timestamp: new FormControl('', Validators.required),
     sensor: new FormControl('', Validators.required)
-  })
+  });
+  /**
+   * These indices track the sensor data window that is currently loaded 
+   * We avoid loading all the sensor data immediately to save resources
+   */
+  sensorDataIdxStep = 50;
+  sensorDataIdxMin = 0;
+  sensorDataIdxMax = this.sensorDataIdxMin + this.sensorDataIdxStep;
+  // This is set to true when a csv download is processing
+  downloadActive = false;
+  // Infinite scroll configuration parameters
+  throttle = 50; // how soon to trigger event after user stops scrolling
+  scrollDistance = 2; // trigger event when 80% down page
 
   /**
    * This constructor declares the sensorDataService and sensorService
@@ -50,11 +62,11 @@ export class SensorDataListComponent implements OnInit {
      * Here we request all sensorData entries. When we get them, we sort them 
      * then set the array of sensorData to the sorted value.
      */
-    this.sensorDataService.getSensorData().subscribe(data => {
+    this.sensorDataService
+      .getSensorDataRange(this.sensorDataIdxMin, this.sensorDataIdxMax)
+      .subscribe(data => {
       // Sort the data by id, then assign it to list.
-      this.sensordataList = data.sort((a,b) => {
-        return a.entry_id - b.entry_id;
-      })
+      this.sensordataList = data;
     });
   }
 
@@ -73,6 +85,19 @@ export class SensorDataListComponent implements OnInit {
     this.editSensorDataForm.get('distance')?.setValue(sensordata.distance);
     this.editSensorDataForm.get('timestamp')?.setValue(sensordata.timestamp);
     this.editSensorDataForm.get('sensor')?.setValue(sensordata.sensor);
+  }
+
+  /**
+   * Loads additional sensor data when scroll window hits bottom
+   */
+  onScrollDown() {
+    let oldMax = this.sensorDataIdxMax;
+    this.sensorDataIdxMax = this.sensorDataIdxMax + this.sensorDataIdxStep;
+    // Request a new block of sensor data, and append it to list of data
+    this.sensorDataService.getSensorDataRange(oldMax, this.sensorDataIdxMax)
+      .subscribe(newData => {
+        this.sensordataList = this.sensordataList.concat(newData);
+      })
   }
 
   /**
@@ -98,17 +123,15 @@ export class SensorDataListComponent implements OnInit {
   }
 
   downloadFile() {
-
+    this.downloadActive = true;
     // download file
-    this.sensorDataService.download().subscribe(
-        res => {
-            const blob = new Blob([res], { type : 'text/csv' });
-            const file = new File([blob], 'csv_database_write' + '.csv', { type: 'text/csv' });
-            saveAs(file);
-        },
-        res => {
-            // notify error
-        }
+    this.sensorDataService.downloadCSV().subscribe(
+      res => {
+        this.downloadActive = false;
+        const blob = new Blob([res], { type: 'text/csv' });
+        const file = new File([blob], 'csv_database_write' + '.csv', { type: 'text/csv' });
+        saveAs(file);
+      }
     );
   }
 }

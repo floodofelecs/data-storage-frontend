@@ -8,10 +8,12 @@
 			<button class="btn btn-large btn-success my-1 float-right" routerLink="/new-sensordata">
 				<i class="fa fa-plus"></i> New Sensor Data
 			</button>
-		</div>
-		<div class="col">
-        	<button class="btn btn-large btn-success my-1 float-right" type="button" (click)="downloadFile();">
-				<i class="fa fa-download"></i> Download All Sensor Data
+			<button class="btn btn-large btn-primary my-1 mx-2 float-right" type="button" (click)="downloadFile();">
+				<span *ngIf="!downloadActive"><i class="fa fa-download"></i> Download All Sensor Data</span>
+				<span *ngIf="downloadActive">
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+					Download Processing...
+				</span>
 			</button>
 		</div>
 	</div>
@@ -28,8 +30,10 @@
 						<th scope="col">Coordinates</th>
 					</tr>
 				</thead>
-				<!-- Table body. NgFor lets us create many table rows. -->
-				<tbody>
+				<!-- Table body. NgFor lets us create many table rows. 
+					The infinite-scoll directive lets us load more sensor data when user scrolls to bottom of list-->
+				<tbody infinite-scroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle"
+					(scrolled)="onScrollDown()">
 					<!-- ngClass directive sets custom class if the table row is selected -->
 					<tr *ngFor="let sensordata of sensordataList; let idx = index" (click)="onSelect(sensordata, idx)"
 						[ngClass]="{'table-active': sensordata == selectedSensorData}">
@@ -96,5 +100,11 @@
 				</div>
 			</form>
 		</div>
+	</div>
+	<div class="text-center">
+		<div class="spinner-border" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+		Loading More Entries...
 	</div>
 </div>

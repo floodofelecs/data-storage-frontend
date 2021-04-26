@@ -34,6 +34,9 @@
             "scripts": [
               "./node_modules/moment/min/moment.min.js",
               "./node_modules/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "file-saver"
             ]
           },
           "configurations": {

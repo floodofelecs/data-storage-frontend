@@ -38,6 +38,17 @@ export class SensorDataService {
   }
 
   /**
+   * Gets a range of sensor data by index. Useful to limit size of returned data
+   * @param minRange Minimum index from the list of all sensor data to get (inclusive)
+   * @param maxRange Maximum index from all the sensor data to get (exclusive)
+   */
+  getSensorDataRange(minRange: number, maxRange: number): Observable<SensorData[]> {
+    return this.http.get(`${Configuration.api_url}/sensor-data/`,
+      { params: { minrange: minRange.toString(), maxrange: maxRange.toString() } })
+      .pipe(catchError(this.handleError)).pipe(map(res => res as SensorData[]));
+  }
+
+  /**
    * Gets individual sensor data entry
    * @param entry_id: Entry id of the sensor data to get.
    */
@@ -81,7 +92,26 @@ export class SensorDataService {
       }).pipe(catchError(this.handleError)).pipe(map(res => res as SensorData));
   }
 
-  download() {
-    return this.http.get(`${Configuration.api_url}/sensor-data/csv-database-write/`, { responseType: 'blob' });
-}
+  /**
+   * Downloads all sensor data from the backend as a CSV file
+   * @returns CSV data as a binary blob
+   */
+  downloadCSV(): Observable<Blob> {
+    return this.http
+      .get(`${Configuration.api_url}/sensor-data/csv-database-write/`, { responseType: 'blob' })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Requests the most recent sensor data entry from each sensor within a given
+   * radius of a latitude and longitude
+   * @param radius Radius in miles to request data within
+   * @param latitude latitude to center radius around
+   * @param longitude longitude to center radius around
+   */
+  getDataWithinRadius(radius: number, latitude: number, longitude: number): Observable<SensorData[]> {
+    return this.http.get(`${Configuration.api_url}/sensor-data/location/`, {
+      params: { 'radius': radius.toString(), 'latitude': latitude.toString(), 'longitude': longitude.toString(), 'most_recent': 'true' }
+    }).pipe(catchError(this.handleError)).pipe(map(res => res as SensorData[]))
+  }
 }
