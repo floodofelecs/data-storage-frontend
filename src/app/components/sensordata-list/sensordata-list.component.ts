@@ -44,6 +44,8 @@ export class SensorDataListComponent implements OnInit {
   sensorDataIdxMax = this.sensorDataIdxMin + this.sensorDataIdxStep;
   // This is set to true when a csv download is processing
   downloadActive = false;
+  // Set to true when the sensor data list is being refreshed
+  refreshActive = false;
   // Infinite scroll configuration parameters
   throttle = 50; // how soon to trigger event after user stops scrolling
   scrollDistance = 2; // trigger event when 80% down page
@@ -65,9 +67,9 @@ export class SensorDataListComponent implements OnInit {
     this.sensorDataService
       .getSensorDataRange(this.sensorDataIdxMin, this.sensorDataIdxMax)
       .subscribe(data => {
-      // Sort the data by id, then assign it to list.
-      this.sensordataList = data;
-    });
+        // Sort the data by id, then assign it to list.
+        this.sensordataList = data;
+      });
   }
 
   /**
@@ -97,6 +99,18 @@ export class SensorDataListComponent implements OnInit {
     this.sensorDataService.getSensorDataRange(oldMax, this.sensorDataIdxMax)
       .subscribe(newData => {
         this.sensordataList = this.sensordataList.concat(newData);
+      })
+  }
+
+  /**
+   * Forces a refresh of the sensor data. 
+   */
+  refreshData() {
+    this.refreshActive = true;
+    this.sensorDataService.getSensorDataRange(this.sensorDataIdxMin, this.sensorDataIdxMax)
+      .subscribe(res => {
+        this.sensordataList = res;
+        this.refreshActive = false;
       })
   }
 
