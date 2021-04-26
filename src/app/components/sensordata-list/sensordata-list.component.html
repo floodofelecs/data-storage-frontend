@@ -32,7 +32,8 @@
 						<th scope="col">ID</th>
 						<th scope="col">Timestamp</th>
 						<th scope="col">Distance</th>
-						<th scope="col">Coordinates</th>
+						<th scope="col">Hardware ID</th>
+						<th scope="col">Synthetic ID</th>
 					</tr>
 				</thead>
 				<!-- Table body. NgFor lets us create many table rows. 
@@ -46,7 +47,8 @@
 						<td>{{sensordata.entry_id}}</td>
 						<td>{{sensordata.timestamp | date:'short'}}</td>
 						<td>{{sensordata.distance}} meters</td>
-						<td>({{sensordata.sensor.location.longitude}}, {{sensordata.sensor.location.latitude}})</td>
+						<td>{{sensordata.sensor.hardware_id}}</td>
+						<td>{{sensordata.sensor.synthetic_id}}</td>
 					</tr>
 				</tbody>
 			</table>
